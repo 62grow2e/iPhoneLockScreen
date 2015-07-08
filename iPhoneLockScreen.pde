@@ -1,8 +1,10 @@
-
+PFont notofont;
 Mode mode;
 iOS7 ios7;
 Manual manual;
 void setup(){
+	// load free font; noto font
+	notofont = loadFont("NotoSansCJKjp-Thin-48.vlw");
 	mode = Mode.MANUAL;
 	size(414, 736);
 	ios7 = new iOS7(width, height);

@@ -1,6 +1,5 @@
 class iOS7 {
 	int w, h;
-	PFont font;
 	String time, date, pw_text, leftBottom, rightBottom;
 	String[] unlock_text, alphabets;
 
@@ -35,8 +34,6 @@ class iOS7 {
 		w = _width;
 		h = _height;
 
-		// load free font
-		font = loadFont("NotoSansCJKjp-Thin-48.vlw");
 		// set date info
 		time = "14:67";
 		date = "1月17日(土曜日)";
@@ -61,7 +58,7 @@ class iOS7 {
 		lockScreen = createGraphics(w*2, h);
 		lockScreen.beginDraw();
 		lockScreen.smooth();
-		lockScreen.textFont(font);
+		lockScreen.textFont(notofont);
 		lockScreen.endDraw();
 		left_x = -w;
 
