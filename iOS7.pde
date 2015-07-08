@@ -4,6 +4,7 @@ class iOS7 {
 	String[] unlock_text, alphabets;
 
 	PGraphics lockScreen;
+	PGraphics background;
 	PImage bg;
 	int bg_gray, bg_alpha;
 
@@ -55,11 +56,14 @@ class iOS7 {
 			50, 50, 50, 120, 200, 255, 200, 120, 50, 50, 50
 		};
 
+		background = createGraphics(w, h);
+
 		lockScreen = createGraphics(w*2, h);
 		lockScreen.beginDraw();
 		lockScreen.smooth();
 		lockScreen.textFont(notofont);
 		lockScreen.endDraw();
+		
 		left_x = -w;
 
 		k_forDrag = 0.4;
@@ -71,13 +75,6 @@ class iOS7 {
 	}
 
 	void draw(){
-		background(bg);
-		fill(bg_gray, bg_alpha);
-		noStroke();
-		rect(0, 0, w, h);
-
-		update();
-		image(getScreen(), left_x, left_y, lockScreen.width, lockScreen.height);
 	}
 
 	void update(){
@@ -149,6 +146,24 @@ class iOS7 {
 			if(!isLockScreen)isLockLeft = false;
 		}
 		if(isDragReleased)isDragReleased = false;
+	}
+
+	PGraphics getBackground(){
+		background.beginDraw();
+		background.background(bg);
+		background.fill(bg_gray, bg_alpha);
+		background.noStroke();
+		background.rect(0, 0, w, h);
+		background.endDraw();
+		return background;
+	}
+
+	PVector getScreenPos(){
+		return new PVector(left_x, left_y);
+	}
+
+	PVector getScreenSize(){
+		return new PVector(lockScreen.width, lockScreen.height);
 	}
 
 	PGraphics getScreen(){
