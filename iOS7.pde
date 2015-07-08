@@ -47,7 +47,7 @@ class iOS7 {
 			"ABC", "DEF", "GHI", "JKL", "MNO", "PQRS", "TUV", "WXYZ"
 		};
 
-		bg = loadImage("bg_bar.jpg");
+		bg = loadImage("bg.jpg");
 		bg_gray = 50;
 		bg_alpha = 0;
 		unlock_text_t = 0;
@@ -68,7 +68,6 @@ class iOS7 {
 
 		easing = new Easing();
 		progress_t = 0;
-
 	}
 
 	void draw(){
