@@ -57,6 +57,10 @@ class iOS7 {
 		};
 
 		lockScreen = createGraphics(w*2, h);
+		lockScreen.beginDraw();
+		lockScreen.smooth();
+		lockScreen.textFont(font);
+		lockScreen.endDraw();
 		left_x = -w;
 
 		k_forDrag = 0.4;
@@ -150,7 +154,6 @@ class iOS7 {
 
 	PGraphics getScreen(){
 		lockScreen.beginDraw();
-		lockScreen.textFont(font);
 		lockScreen.background(255, 0);
 		lockScreen.textAlign(CENTER, CENTER);
 		lockScreen.fill(255);
