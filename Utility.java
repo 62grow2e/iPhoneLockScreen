@@ -1,3 +1,3 @@
-enum Version {
+enum Mode {
 	PLAY, MANUAL
 };

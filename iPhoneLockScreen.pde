@@ -1,30 +1,44 @@
 
-Version version;
+Mode mode;
 iOS7 ios7;
+Manual manual;
 void setup(){
-	version = Version.PLAY;
+	mode = Mode.MANUAL;
 	size(414, 736);
 	ios7 = new iOS7(width, height);
+	manual = new Manual();
 }
 
 void draw(){
-	if(version == Version.PLAY)ios7.draw();
-	
+	switch (mode) {
+		case PLAY :
+			ios7.draw();
+		break;	
+		case MANUAL :
+			manual.draw();
+		break;	
+	}
 }
 
 void mouseDragged(){
-	if(version == Version.PLAY)ios7.mouseDragged();
+	if(mode == Mode.PLAY)ios7.mouseDragged();
 }
 
 void mouseReleased(){
-	if(version == Version.PLAY)ios7.mouseReleased();
+	if(mode == Mode.PLAY)ios7.mouseReleased();
 }
 
 void mousePressed(){
-	if(version == Version.PLAY)ios7.mousePressed();
+	if(mode == Mode.PLAY)ios7.mousePressed();
 }
 
 void keyPressed(){
-	if(version == Version.PLAY)version = Version.MANUAL;
-	if(version == Version.MANUAL)version = Version.PLAY;
+	switch (mode) {
+		case PLAY :
+			mode = Mode.MANUAL;
+		break;	
+		case MANUAL :
+			mode = Mode.PLAY;
+		break;	
+	}
 }
