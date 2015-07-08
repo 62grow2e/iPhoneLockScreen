@@ -74,9 +74,6 @@ class iOS7 {
 		progress_t = 0;
 	}
 
-	void draw(){
-	}
-
 	void update(){
 		if(!isDragged && !isEasing && !isTouched && !isTouchHeld && isLockScreen){
 			elapsedTime_released++;
