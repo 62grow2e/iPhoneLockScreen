@@ -96,7 +96,7 @@ class iOS7 {
 			left_x += ((dragVelocity > 0)?k_forDrag: 1)*(mouseX - pmouseX);
 		}
 		if(isTouchHeld && isLockScreen){
-			left_x = easing.getX_linear(-w, int(-w*.9), progress_t);
+			left_x = easing.getX_linear(-w, int(-w*.95), progress_t);
 			progress_t += (float)1/8;
 			if(progress_t > 1)isTouchHeld = false;
 		}
