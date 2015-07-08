@@ -19,7 +19,7 @@ class iOS7 {
 	boolean isTouchHeld = false;
 	boolean isDragged = false;
 	boolean isDragReleased = false;
-	boolean isLockLeft = true;
+	boolean isLockLeft = false;
 
 	int dragVelocity;
 	float k_forDrag;
@@ -73,7 +73,6 @@ class iOS7 {
 		easing = new Easing();
 		progress_t = 0;
 	}
-
 
 	void update(){
 		if(!isDragged && !isEasing && !isTouched && !isTouchHeld && isLockScreen){

@@ -16,7 +16,7 @@ void draw(){
 		case PLAY :
 		ios7.update();
 		image(ios7.getBackground(), 0, 0, width, height);
-		image(ios7.getScreen(), ios7.getScreenPos().x, ios7.getScreenPos().y, ios7.getScreenSize().x, ios7.getScreenSize().y);
+		image(ios7.getScreen(), ios7.getScreenPos(), ios7.getScreenSize());
 		break;	
 		case MANUAL :
 		manual.draw();
@@ -45,4 +45,8 @@ void keyPressed(){
 		mode = Mode.PLAY;
 		break;	
 	}
+}
+
+void image(PImage img, PVector pos, PVector size){
+	image(img, pos.x, pos.y, size.x, size.y);
 }
