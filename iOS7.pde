@@ -5,6 +5,7 @@ class iOS7 {
 	String[] unlock_text, alphabets;
 
 	PGraphics lockScreen;
+	PImage bg;
 	int bg_gray, bg_alpha;
 
 	int left_x;
@@ -49,6 +50,7 @@ class iOS7 {
 			"ABC", "DEF", "GHI", "JKL", "MNO", "PQRS", "TUV", "WXYZ"
 		};
 
+		bg = loadImage("bg_bar.jpg");
 		bg_gray = 50;
 		bg_alpha = 0;
 		unlock_text_t = 0;
@@ -73,6 +75,7 @@ class iOS7 {
 	}
 
 	void draw(){
+		background(bg);
 		fill(bg_gray, bg_alpha);
 		noStroke();
 		rect(0, 0, w, h);
