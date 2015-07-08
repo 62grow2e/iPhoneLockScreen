@@ -14,10 +14,14 @@ void setup(){
 void draw(){
 	switch (mode) {
 		case PLAY :
-			ios7.draw();
+		ios7.draw();
+
+		ios7.update();
+		image(ios7.getBackground(), 0, 0, width, height);
+		image(ios7.getScreen(), ios7.getScreenPos().x, ios7.getScreenPos().y, ios7.getScreenSize().x, ios7.getScreenSize().y);
 		break;	
 		case MANUAL :
-			manual.draw();
+		manual.draw();
 		break;	
 	}
 }
@@ -37,10 +41,10 @@ void mousePressed(){
 void keyPressed(){
 	switch (mode) {
 		case PLAY :
-			mode = Mode.MANUAL;
+		mode = Mode.MANUAL;
 		break;	
 		case MANUAL :
-			mode = Mode.PLAY;
+		mode = Mode.PLAY;
 		break;	
 	}
 }

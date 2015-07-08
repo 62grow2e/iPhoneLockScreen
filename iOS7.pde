@@ -75,9 +75,6 @@ class iOS7 {
 	}
 
 	void draw(){
-		update();
-		image(getBackground(), 0, 0, w, h);
-		image(getScreen(), left_x, left_y, lockScreen.width, lockScreen.height);
 	}
 
 	void update(){
@@ -161,8 +158,17 @@ class iOS7 {
 		return background;
 	}
 
+	PVector getScreenPos(){
+		return new PVector(left_x, left_y);
+	}
+
+	PVector getScreenSize(){
+		return new PVector(lockScreen.width, lockScreen.height);
+	}
+
 	PGraphics getScreen(){
 		lockScreen.beginDraw();
+		lockScreen.background(255, 0);
 		lockScreen.textAlign(CENTER, CENTER);
 		lockScreen.fill(255);
 		lockScreen.textSize(h/8);
