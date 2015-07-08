@@ -94,7 +94,6 @@ class iOS7 {
 		if(isTouchHeld && isLockScreen){
 			left_x = easing.getBackOut(-w, int(-w*.95), progress_t);
 			progress_t += (float)1/16;
-			println("progress_t: "+progress_t, left_x);
 			if(progress_t > 1)isTouchHeld = false;
 		}
 		if(isTouched && mouseX == pmouseX && left_x == -w){
