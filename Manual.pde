@@ -10,7 +10,7 @@ class Manual{
 		textSize(30);
 		text("imitation of unlock screen", width/2, height/10);
 		textSize(25);
-		text("iOS 7.0 or later version", width/2, 2*height/10);
+		text("iOS 8.4 version", width/2, 2*height/10);
 
 		line(width/8, 3*height/10, 7*width/8, 3*height/10);
 		

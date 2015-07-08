@@ -1,22 +1,22 @@
 PFont notofont;
 Mode mode;
-iOS7 ios7;
+iOS8_4 ios;
 Manual manual;
 void setup(){
 	// load free font; noto font
 	notofont = loadFont("NotoSansCJKjp-Thin-48.vlw");
 	mode = Mode.MANUAL;
 	size(414, 736);
-	ios7 = new iOS7(width, height);
+	ios = new iOS8_4(width, height);
 	manual = new Manual();
 }
 
 void draw(){
 	switch (mode) {
 		case PLAY :
-		ios7.update();
-		image(ios7.getBackground(), 0, 0, width, height);
-		image(ios7.getScreen(), ios7.getScreenPos(), ios7.getScreenSize());
+		ios.update();
+		image(ios.getBackground(), 0, 0, width, height);
+		image(ios.getScreen(), ios.getScreenPos(), ios.getScreenSize());
 		break;	
 		case MANUAL :
 		manual.draw();
@@ -25,15 +25,15 @@ void draw(){
 }
 
 void mouseDragged(){
-	if(mode == Mode.PLAY)ios7.mouseDragged();
+	if(mode == Mode.PLAY)ios.mouseDragged();
 }
 
 void mouseReleased(){
-	if(mode == Mode.PLAY)ios7.mouseReleased();
+	if(mode == Mode.PLAY)ios.mouseReleased();
 }
 
 void mousePressed(){
-	if(mode == Mode.PLAY)ios7.mousePressed();
+	if(mode == Mode.PLAY)ios.mousePressed();
 }
 
 void keyPressed(){

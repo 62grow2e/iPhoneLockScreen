@@ -1,4 +1,4 @@
-class iOS7 {
+class iOS8_4 {
 	int w, h;
 	String time, date, pw_text, leftBottom, rightBottom;
 	String[] unlock_text, alphabets;
@@ -31,7 +31,7 @@ class iOS7 {
 	Easing easing;
 	float progress_t;
 
-	iOS7(int _width, int _height){
+	iOS8_4(int _width, int _height){
 		w = _width;
 		h = _height;
 
