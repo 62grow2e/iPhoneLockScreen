@@ -96,8 +96,9 @@ class iOS7 {
 			left_x += ((dragVelocity > 0)?k_forDrag: 1)*(mouseX - pmouseX);
 		}
 		if(isTouchHeld && isLockScreen){
-			left_x = easing.getX_linear(-w, int(-w*.95), progress_t);
-			progress_t += (float)1/8;
+			left_x = easing.getBackOut(-w, int(-w*.95), progress_t);
+			progress_t += (float)1/16;
+			println("progress_t: "+progress_t, left_x);
 			if(progress_t > 1)isTouchHeld = false;
 		}
 		if(isTouched && mouseX == pmouseX && left_x == -w){
@@ -108,12 +109,12 @@ class iOS7 {
 
 		if(isEasing && isLockScreen){
 			if(releasedLeft_x < -w*.6){
-				left_x = easing.getX_quadInOut(releasedLeft_x, -w, progress_t);
+				left_x = easing.getQuadInOut(releasedLeft_x, -w, progress_t);
 				progress_t += (float)1/8;
 				if(progress_t > 1)isEasing = false;
 			}
 			else if(releasedLeft_x >= -w*.6){
-				left_x = easing.getX_quadInOut(releasedLeft_x, 0, progress_t);
+				left_x = easing.getQuadInOut(releasedLeft_x, 0, progress_t);
 				progress_t += (float)1/8;
 				if(progress_t > 1){
 					isEasing = false;
@@ -123,7 +124,7 @@ class iOS7 {
 		}
 		if(isEasing && !isLockScreen){
 			if(dragVelocity < -5){
-				left_x = easing.getX_quadInOut(releasedLeft_x, -w, progress_t);
+				left_x = easing.getQuadInOut(releasedLeft_x, -w, progress_t);
 				progress_t += (float)1/16;
 				if(progress_t > 1){
 					isEasing = false;
@@ -132,12 +133,12 @@ class iOS7 {
 			}
 			else {
 				if(releasedLeft_x > -w/2){
-					left_x = easing.getX_quadInOut(releasedLeft_x, 0, progress_t);
+					left_x = easing.getQuadInOut(releasedLeft_x, 0, progress_t);
 					progress_t += (float)1/8;
 					if(progress_t > 1)isEasing = false;
 				}
 				else if(releasedLeft_x <= -w/2){
-					left_x = easing.getX_quadInOut(releasedLeft_x, -w, progress_t);
+					left_x = easing.getQuadInOut(releasedLeft_x, -w, progress_t);
 					progress_t += (float)1/8;
 					if(progress_t > 1){
 						isEasing = false;
@@ -226,27 +227,26 @@ class iOS7 {
 	}
 
 	class Easing{
-		int getX_linear(int from_x, int to_x, float t){
+		int getLinear(int from_x, int to_x, float t){
 			// t must be no more than 1 and no less than 0
 			if(t < 0 || 1 < t)return -1;
 			return int(t*(to_x - from_x) + from_x);
 		}
 
-		int getX_damping(int from_x, int to_x, float t){
+		int getBackOut(int from_x, int to_x, float t){
 			// t must be no more than 1 and no less than 0
 			if(t < 0 || 1 < t)return -1;
-			return int(0);
+			int p = (int)(.99*to_x);
+			if(t <= .8)return int((t/.8) * (t/.8) * (p - from_x) + from_x);
+			else if(t > .8)return int((t-.8)/.2 * (t-.8)/.2 * (to_x - p) + p);
+			return -1;
 		}
 
-		int getX_quadInOut(int from_x, int to_x, float t){
+		int getQuadInOut(int from_x, int to_x, float t){
 			if(t < 0 || 1 < t)return -1;
 			int center = (from_x + to_x)/2;
-			if(t <= .5){
-				return int(((float)2*t)*((float)2*t)*(center - from_x) + from_x);
-			}
-			else if(.5 < t){
-				return int(((float)2*t - 1)*((float)2*t - 1)*(to_x - center) + center);
-			}
+			if(t <= .5)return int(((float)2*t)*((float)2*t)*(center - from_x) + from_x);
+			else if(.5 < t)return int(((float)2*t - 1)*((float)2*t - 1)*(to_x - center) + center);
 			return -1;
 		}
 
