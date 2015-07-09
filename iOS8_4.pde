@@ -1,5 +1,6 @@
 class iOS8_4 {
 	int w, h;
+	int half_w;
 	String time, date, pw_text, leftBottom, rightBottom;
 	String[] unlock_text, alphabets;
 
@@ -34,6 +35,7 @@ class iOS8_4 {
 	iOS8_4(int _width, int _height){
 		w = _width;
 		h = _height;
+		half_w = w/2;
 
 		// set date info
 		time = "14:67";
@@ -58,13 +60,13 @@ class iOS8_4 {
 
 		background = createGraphics(w, h);
 
-		lockScreen = createGraphics(w*2, h);
+		lockScreen = createGraphics(w*3, h);
 		lockScreen.beginDraw();
 		lockScreen.smooth();
 		lockScreen.textFont(notofont);
 		lockScreen.endDraw();
 		
-		left_x = -w;
+		left_x = -w - half_w;
 
 		k_forDrag = 0.4;
 		dragVelocity = 0;
@@ -86,11 +88,11 @@ class iOS8_4 {
 			left_x += ((dragVelocity > 0)?k_forDrag: 1)*(mouseX - pmouseX);
 		}
 		if(isTouchHeld && isLockScreen){
-			left_x = easing.getBackOut(-w, int(-w*.95), progress_t);
+			left_x = easing.getBackOut(-w - half_w, int(-w*.95 - half_w), progress_t);
 			progress_t += (float)1/16;
 			if(progress_t > 1)isTouchHeld = false;
 		}
-		if(isTouched && mouseX == pmouseX && left_x == -w){
+		if(isTouched && mouseX == pmouseX && left_x == -w - half_w){
 			isTouched = false;
 			isTouchHeld = true;
 			progress_t = 0;
@@ -98,12 +100,12 @@ class iOS8_4 {
 
 		if(isEasing && isLockScreen){
 			if(releasedLeft_x < -w*.6){
-				left_x = easing.getQuadInOut(releasedLeft_x, -w, progress_t);
+				left_x = easing.getQuadInOut(releasedLeft_x, -w - half_w, progress_t);
 				progress_t += (float)1/8;
 				if(progress_t > 1)isEasing = false;
 			}
-			else if(releasedLeft_x >= -w*.6){
-				left_x = easing.getQuadInOut(releasedLeft_x, 0, progress_t);
+			else if(releasedLeft_x >= -w*.6 - half_w){
+				left_x = easing.getQuadInOut(releasedLeft_x,  -half_w, progress_t);
 				progress_t += (float)1/8;
 				if(progress_t > 1){
 					isEasing = false;
@@ -113,7 +115,7 @@ class iOS8_4 {
 		}
 		if(isEasing && !isLockScreen){
 			if(dragVelocity < -5){
-				left_x = easing.getQuadInOut(releasedLeft_x, -w, progress_t);
+				left_x = easing.getQuadInOut(releasedLeft_x, -w - half_w, progress_t);
 				progress_t += (float)1/16;
 				if(progress_t > 1){
 					isEasing = false;
@@ -122,12 +124,12 @@ class iOS8_4 {
 			}
 			else {
 				if(releasedLeft_x > -w/2){
-					left_x = easing.getQuadInOut(releasedLeft_x, 0, progress_t);
+					left_x = easing.getQuadInOut(releasedLeft_x, -half_w, progress_t);
 					progress_t += (float)1/8;
 					if(progress_t > 1)isEasing = false;
 				}
 				else if(releasedLeft_x <= -w/2){
-					left_x = easing.getQuadInOut(releasedLeft_x, -w, progress_t);
+					left_x = easing.getQuadInOut(releasedLeft_x, -w - half_w, progress_t);
 					progress_t += (float)1/8;
 					if(progress_t > 1){
 						isEasing = false;
@@ -136,8 +138,8 @@ class iOS8_4 {
 				}
 			}
 		}
-		int _left_x = (left_x < -w)? -w: (left_x > 0)? 0: left_x;
-		bg_alpha = (int)map(_left_x, -w, 0, 0, 250);
+		int _left_x = (left_x < -w - half_w)? -w - half_w: (left_x >  -half_w)?  -half_w: left_x;
+		bg_alpha = (int)map(_left_x, -w - half_w, -half_w, 0, 255);
 		if(isLockLeft){
 			unlock_text_t += (float)1/8;
 			if(!isLockScreen)isLockLeft = false;
@@ -148,9 +150,6 @@ class iOS8_4 {
 	PGraphics getBackground(){
 		background.beginDraw();
 		background.background(bg);
-		background.fill(bg_gray, bg_alpha);
-		background.noStroke();
-		background.rect(0, 0, w, h);
 		background.endDraw();
 		return background;
 	}
@@ -165,36 +164,36 @@ class iOS8_4 {
 
 	PGraphics getScreen(){
 		lockScreen.beginDraw();
-		lockScreen.background(255, 0);
+		lockScreen.background(bg_gray, bg_alpha);
 		lockScreen.textAlign(CENTER, CENTER);
 		lockScreen.fill(255);
 		lockScreen.textSize(h/8);
-		lockScreen.text(time, lockScreen.width/4*3, h/8);
+		lockScreen.text(time, w*2, h/8);
 		lockScreen.textSize(h/36);
-		lockScreen.text(date, lockScreen.width/4*3, h/5);
+		lockScreen.text(date, w*2, h/5);
 		lockScreen.textSize(h/30);
-		lockScreen.text(pw_text, lockScreen.width/4, h/9);
+		lockScreen.text(pw_text, w/2 + half_w, h/9);
 		lockScreen.textAlign(LEFT, CENTER);
-		lockScreen.text(leftBottom, w*.1, h*.95);
+		lockScreen.text(leftBottom, w*.1 + half_w, h*.95);
 		lockScreen.textAlign(RIGHT, CENTER);
-		lockScreen.text(rightBottom, w*.9, h*.95);
+		lockScreen.text(rightBottom, w*.9 + half_w, h*.95);
 		lockScreen.noFill();
 		lockScreen.stroke(255, 200);
 		lockScreen.strokeWeight(1);
 		for (int i = 0; i < 4; i++){
-			lockScreen.ellipse(w/9*(i+3), h/6, 15, 15);
+			lockScreen.ellipse(w/9*(i+3) + half_w, h/6, 15, 15);
 		}
 		lockScreen.textAlign(CENTER, CENTER);
 		for(int i = 0; i < 12; i++){
 			if(i == 9 || i == 11)continue;
 			lockScreen.noFill();
-			lockScreen.ellipse((i%3)*((float)w*.9/3)+.20*w, i/3*h/6.5 + h/3, w/4.14, w/4.14);
+			lockScreen.ellipse((i%3)*((float)w*.9/3)+.20*w + half_w, i/3*h/6.5 + h/3, w/4.14, w/4.14);
 			lockScreen.fill(255);
 			lockScreen.textSize(w/9);
-			lockScreen.text((i != 10)?str(i+1): str(0), (i%3)*((float)w*.9/3)+.20*w, i/3*h/6.5 + h/3- ((i != 10)?10: 0));
+			lockScreen.text((i != 10)?str(i+1): str(0), (i%3)*((float)w*.9/3)+.20*w + half_w, i/3*h/6.5 + h/3- ((i != 10)?10: 0));
 			if(1<=i && i <= 8){
 				lockScreen.textSize(h/50);
-				lockScreen.text(alphabets[i-1], (i%3)*((float)w*.9/3)+.20*w, i/3*h/6.5 + h/3+20);
+				lockScreen.text(alphabets[i-1], (i%3)*((float)w*.9/3)+.20*w + half_w, i/3*h/6.5 + h/3+20);
 			}
 		}
 		if(isLockLeft){
@@ -202,7 +201,7 @@ class iOS8_4 {
 			for(int i = 0; i < unlock_text.length; i++){
 				int _i = ((int)(unlock_text_t - i + unlock_text.length)%unlock_text.length)%unlock_text.length;
 				lockScreen.fill(255, unlock_text_alpha[_i]);
-				lockScreen.text(unlock_text[i], i*w*.9/unlock_text.length + w*1.1, h*.9);
+				lockScreen.text(unlock_text[i], i*w*.9/unlock_text.length + w*1.1 + half_w, h*.9);
 			}
 		}
 		lockScreen.endDraw();
