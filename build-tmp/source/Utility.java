@@ -1,3 +1,0 @@
-enum Mode {
-	PLAY, MANUAL
-};
