@@ -81,12 +81,10 @@ class iOS8_4 {
 			elapsedTime_released++;
 			if(elapsedTime_released > 200)isLockLeft = true;
 		}
-		if(isDragged && isLockScreen){
-			left_x += ((dragVelocity < 0)?k_forDrag: 1)*(mouseX - pmouseX);
-		}
-		if(isDragged && !isLockScreen){
-			left_x += ((dragVelocity > 0)?k_forDrag: 1)*(mouseX - pmouseX);
-		}
+		if(isDragged && isLockScreen)left_x += ((dragVelocity < 0)?k_forDrag: 1)*(mouseX - pmouseX);
+
+		if(isDragged && !isLockScreen)left_x += ((dragVelocity > 0)?k_forDrag: 1)*(mouseX - pmouseX);
+		
 		if(isTouchHeld && isLockScreen){
 			left_x = easing.getBackOut(-w - half_w, int(-w*.95 - half_w), progress_t);
 			progress_t += (float)1/16;
@@ -99,7 +97,7 @@ class iOS8_4 {
 		}
 
 		if(isEasing && isLockScreen){
-			if(releasedLeft_x < -w*.6){
+			if(releasedLeft_x < -w*.6 - half_w){
 				left_x = easing.getQuadInOut(releasedLeft_x, -w - half_w, progress_t);
 				progress_t += (float)1/8;
 				if(progress_t > 1)isEasing = false;
@@ -164,14 +162,24 @@ class iOS8_4 {
 
 	PGraphics getScreen(){
 		lockScreen.beginDraw();
+		// transparency
 		lockScreen.background(bg_gray, bg_alpha);
 		lockScreen.textAlign(CENTER, CENTER);
 		lockScreen.fill(255);
 		lockScreen.textSize(h/8);
+		// text in fist page
 		lockScreen.text(time, w*2, h/8);
 		lockScreen.textSize(h/36);
 		lockScreen.text(date, w*2, h/5);
-		lockScreen.textSize(h/30);
+		lockScreen.textSize(h/30);if(isLockLeft){
+			lockScreen.textSize(w/15);
+			for(int i = 0; i < unlock_text.length; i++){
+				int _i = ((int)(unlock_text_t - i + unlock_text.length)%unlock_text.length)%unlock_text.length;
+				lockScreen.fill(255, unlock_text_alpha[_i]);
+				lockScreen.text(unlock_text[i], i*w*.9/unlock_text.length + w*1.1 + half_w, h*.9);
+			}
+		}
+		// visuals in second page
 		lockScreen.text(pw_text, w/2 + half_w, h/9);
 		lockScreen.textAlign(LEFT, CENTER);
 		lockScreen.text(leftBottom, w*.1 + half_w, h*.95);
@@ -196,14 +204,7 @@ class iOS8_4 {
 				lockScreen.text(alphabets[i-1], (i%3)*((float)w*.9/3)+.20*w + half_w, i/3*h/6.5 + h/3+20);
 			}
 		}
-		if(isLockLeft){
-			lockScreen.textSize(w/15);
-			for(int i = 0; i < unlock_text.length; i++){
-				int _i = ((int)(unlock_text_t - i + unlock_text.length)%unlock_text.length)%unlock_text.length;
-				lockScreen.fill(255, unlock_text_alpha[_i]);
-				lockScreen.text(unlock_text[i], i*w*.9/unlock_text.length + w*1.1 + half_w, h*.9);
-			}
-		}
+		
 		lockScreen.endDraw();
 		return lockScreen;
 	}
