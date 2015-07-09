@@ -121,12 +121,12 @@ class iOS8_4 {
 				}
 			}
 			else {
-				if(releasedLeft_x > -w/2){
+				if(releasedLeft_x > -w/2 - half_w){
 					left_x = easing.getQuadInOut(releasedLeft_x, -half_w, progress_t);
 					progress_t += (float)1/8;
 					if(progress_t > 1)isEasing = false;
 				}
-				else if(releasedLeft_x <= -w/2){
+				else if(releasedLeft_x <= -w/2 - half_w){
 					left_x = easing.getQuadInOut(releasedLeft_x, -w - half_w, progress_t);
 					progress_t += (float)1/8;
 					if(progress_t > 1){
