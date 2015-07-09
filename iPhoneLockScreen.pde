@@ -37,13 +37,15 @@ void mousePressed(){
 }
 
 void keyPressed(){
-	switch (mode) {
-		case PLAY :
-		mode = Mode.MANUAL;
-		break;	
-		case MANUAL :
-		mode = Mode.PLAY;
-		break;	
+	if (key  == ' '){
+		switch (mode) {
+			case PLAY :
+			mode = Mode.MANUAL;
+			break;	
+			case MANUAL :
+			mode = Mode.PLAY;
+			break;	
+		}
 	}
 }
 
